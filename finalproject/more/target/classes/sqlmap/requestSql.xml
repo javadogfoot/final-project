@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="requestSql">
+	<!-- 요청서 작성 -->
+    <insert id="requestWrite" parameterType="com.more.request.model.RequestDTO">
+       insert into
+          request
+       values(
+          r_idx_seq.nextval,
+          #{id},
+          #{cate1},
+          #{cate2},
+          #{period},
+          #{day},
+          #{time},
+          #{cost},
+          #{process},
+          #{ls_location},
+          #{intro}
+       )
+    </insert>
+    <!-- 요청서 정보 -->
+    <select id="requestInfo" parameterType="Integer" resultType="com.more.request.model.RequestDTO">
+       select * from
+          request a
+       join
+          member b
+       on
+          a.id = b.id
+       where
+          r_idx=#{r_idx}
+    </select>
+    <!-- 요청서 수정 -->
+ 	<update id="requestUpdate" parameterType="com.more.request.model.RequestDTO">
+ 		update
+ 			request
+ 		set
+ 			period=#{period},
+ 			day=#{day},
+ 			time=#{time},
+ 			cost=#{cost},
+ 			process=#{process},
+ 			ls_location=#{ls_location},
+ 			intro=#{intro}
+ 		where
+ 			r_idx=#{r_idx}
+ 	</update>
+ 	<!-- 요청서 삭제 -->
+ 	<delete id="requestDelete" parameterType="Integer">
+ 		delete from
+ 			request
+ 		where
+ 			r_idx=#{r_idx}
+ 	</delete>
+    <!-- 요청서 목록 -->	
+    <select id="requestList" parameterType="Map" resultType="com.more.request.model.RequestDTO">
+		select * from
+		(select rownum as rnum, a. * from
+		(select * from request join member on request.id=member.id where cate1=#{cate1} and cate2=#{cate2} )a)b 
+		where rnum <![CDATA[>=]]> #{start} and rnum <![CDATA[<=]]> #{end}
+    </select>
+    <!-- 총 요청서 수 -->
+   	<select id="requestCount" parameterType="Map" resultType="Integer">
+ 		select 
+ 			count(*)
+ 		from request
+ 		where cate1=#{cate1} and cate2=#{cate2}
+ 	</select>
+ 	<!-- 보낸 요청 -->
+ 	<select id="sentRequest" parameterType="Map" resultType="com.more.request.model.RequestDTO">
+		select * from
+		(select rownum as rnum, a. * from
+		(select * from request where id = #{id})a)b 
+		where rnum <![CDATA[>=]]> #{start} and rnum <![CDATA[<=]]> #{end}
+ 	</select>
+ 	<!-- 총 보낸 요청서 수 -->
+ 	<select id="sentRequestCount" parameterType="String" resultType="Integer">
+ 		select
+ 			count(*)
+ 		from request
+ 		where id = #{id}
+ 	</select>
+</mapper>

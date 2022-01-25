@@ -1,0 +1,350 @@
+@charset "UTF-8";
+body{
+    margin:0;
+}
+h3{
+    margin-top: 80px;
+    text-align: center;
+    font-size: 24px;
+}
+p{
+    text-align: center;
+}
+a{
+    text-decoration:none;
+    color:rgb(26, 25, 25);
+}
+a:hover{
+    color:rgb(26, 25, 25);
+}
+li{
+    list-style: none;
+}
+/* -------------------------header------------------------- */
+
+
+/* -------------------------main------------------------- */
+.mainContainer{
+    /* background-color: #f7d25b !important;
+    background-image: linear-gradient(
+120deg, rgb(255, 196, 0), #f7be23, #d39000fa) !important;
+    background-image: -moz- linear-gradient(120deg, #f5f38a, #f7d25b, #f1d118fa) !important;
+    background-image: -webkit- linear-gradient(120deg, #f5f38a, #f7d25b, #f1d118fa) !important;
+    background-repeat: no-repeat;
+    background-position: bottom right; */
+    /* background-image: url(sand.jpg);
+    object-fit: cover; */
+    background-color:#ff9797;
+    height: 540px;
+    width: 100%;
+}
+.mainContainer .mainFluid{
+    width: 100%;
+    height: 540px;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+}
+.mainText{
+    position: relative;
+    margin-right: 24px;
+    width: 550px;
+    height: 80%;
+    left:15%;
+    top:17%;
+    float: left;
+}
+.mainText h1{
+    margin: 24px 16px 8px 0;
+    font-size: 42px;
+    font-weight: bold;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #ffffff;
+}
+.mainText p{
+    margin-bottom: 40px;
+    font-size: 20px;
+    font-weight: 300;
+    text-align: left;
+    color: #ffffff;
+}
+.mainImg{
+    position: relative;
+    float: right;
+    top:8.4%;
+    right: 16.5%;
+    width: 390px;
+    height: 540px;  
+}
+.mainImg img{
+    width: 390px;
+    height: 540px;
+    object-fit: none;
+}
+#mainSearchBox{
+    display: flex;
+    box-shadow: 2px 4px rgb(0 0 0 / 10%);
+    width: 440px;
+    height: 48px;
+    background-color: white;
+}
+#mainSearchBox .icon{
+    width: 48px;
+    height: 48px;
+    background: url(/more/resources/img/more_icon.jpg);
+    background-color: #fff;
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+    background-position: center;
+}
+#mainSearchBox .text{
+    padding: 0 16px;
+    height: 48px;
+    width: 100%;
+    border: none;
+    font-size: 16px;
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+}
+/* -------------------------category------------------------- */
+#category{
+    background-color:white;
+    text-align: center;
+    margin: 20px auto;
+    border-bottom: 1px solid #e2e2e2;
+    width: 1240px;
+    height: 60px;
+    clear: right;
+}
+#category span{
+    display: inline-block;
+    width: 120px;
+    text-align: center;
+    line-height: 58px;
+    font-size: 18px;
+}
+#category span:hover{
+    background-color: #f5808f;
+   
+}
+/* -------------------------lessonList------------------------- */
+.subjectContainer{
+    margin: 0px auto;
+    width: 1050px;
+}
+.subjectContainer div{
+    text-align: right;
+    font-size: 20px;
+}
+.subjectContainer a{
+    color:rgb(90, 72, 14);
+}
+.listContainer{
+    margin:10px auto;
+    text-align: center;
+    width: 1300px;
+    height:230px;
+    display: flex;
+    justify-content: space-between;
+}
+.listContainer .listItem{
+    cursor: pointer;
+    width: 240px;
+    height: 270px;
+    border: 1px solid #bdbfc4;
+}
+
+.listContainer .listItem .img{
+    width:100%;
+    height:75%;
+    position:relative;
+    overflow: hidden;
+}
+.listContainer .listItem .name{
+    width: 100%;
+    height: 25%;
+    text-align: center;
+    line-height: 65px;
+    font-size: 20px;
+    letter-spacing: 2px;
+    color: #786e6e;
+    font-weight: bold;
+}
+.listContainer .listItem .img img{
+    width:100%;
+    height:100%;
+    object-fit: cover;
+}
+.listContainer .listItem .img .hidden{
+    display:none;
+}
+.listContainer .listItem .img:hover .hidden{
+    display:block;
+    position: absolute;
+    border-radius: 10px;
+    left:30%;
+    bottom: 35%;
+    border:2px solid white;
+    padding: 10px;
+    font-size:20px;
+    color:white;
+}
+.listContainer .listItem .img:hover img{
+    transform: scale(1.1);
+    transition: transform 1s;
+    filter: brightness(40%);
+}
+
+/* -------------------------reviewList------------------------- */
+#swiper-play{
+    width: 1250px;
+    height: 300px;
+    border:1px solid rgba(102, 96, 11, 0.671);
+}
+
+.req-partner-contents{
+    width:700px;
+    height:400px;
+    margin: 0px auto;
+}
+.req-service-name{
+   width: 50%;
+    margin: 20px auto;
+    border-radius: 10px;
+    color: white;
+    background-color: #ff9797;
+    font-size: 18px;
+    padding: 10px;
+    text-align: center;
+}
+.review-detail-text{
+   width:100%;
+   height:200px;
+   margin: 20px auto;
+   font-size: 18px;
+   color:gray;
+   text-align: center;
+}
+
+/* -------------------------banner------------------------- */
+#banner{
+    margin: 0px auto;
+    text-align: center;
+    height: 350px;
+    background-color: #ff979726;
+}
+#banner img{
+width: 1700px;
+height: 350px;
+margin: 0px auto;
+}
+
+/* -------------------------manual------------------------- */
+#manual{
+    margin-top: 60px;
+    height: 1500px;
+}
+#manualContainer .manualItem1, .manualItem2{
+    height: 500px;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin:0px auto;
+    display: flex;
+    justify-content: center;
+}
+
+.manualImg{
+    float: left;
+    right: 16.5%;
+    width: 550px;
+    height: 500px;
+}
+.manualImg img{
+    position: relative;
+    width: 550px;
+    height: 500px;
+    object-fit: cover;
+}
+.manualText{
+    position: relative;
+    margin-right: 24px;
+    width: 700px;
+    height: 300px;
+    top:15%;
+    float: right;
+  
+}
+.manualText h3{
+    color: rgb(90, 72, 14);
+    font-weight: 800;
+    font-size: 24px;
+    margin-bottom: 25px;
+    text-align: left;
+    margin-left: 20%;
+}
+
+.manualText p{
+    color: #4d4d4d;
+    line-height: 1.6;
+    text-align: left;
+    margin-left:20%;
+}
+/* -------------------------expert------------------------- */
+#expertContainer{
+    width:1400px;
+    height:550px;
+    margin: 0px auto;
+    display: flex;
+    justify-content: space-between;
+}
+#expertContainer .expertItem{
+    vertical-align: top;
+    width: 420px;
+    height: 550px;
+    background-color: #fff;
+    border: 1px solid #3f3d2f77;
+    margin: 0px 7px 50px 7px;
+    padding: 0 30px;
+}
+.expertItem h3{
+    margin-top:50px;
+}
+.profileBox{
+    width:300px;
+    height:100px;
+    margin: 40px 20px 20px 20px;
+}
+.profileBox .profilePic{
+    width:100px;
+    height:100px;
+}
+.profilePic img{
+    width:70px;
+    height:70px;
+    position: relative;
+    left:20%;
+    border-radius: 100%;
+    object-fit: cover;
+}
+.profilePic .name{
+    font-size: 18px;
+    position: relative;
+    top:5%;
+    left:5px;
+}
+.profileBox .spec{
+    width:200px;
+    height:100px;
+    position: relative;
+    bottom: 100%;
+    left:35%;
+}
+.spec ul li{
+   font-size:14px;
+}

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+  <mappers>
+    <mapper resource="sqlmap/memberSql.xml"/>
+    <mapper resource="sqlmap/reviewSql.xml"/>
+    <mapper resource="sqlmap/bbsSql.xml"/>
+    <mapper resource="sqlmap/bbs_reSql.xml"/>
+    <mapper resource="sqlmap/expertSql.xml"/>
+    <mapper resource="sqlmap/suggestSql.xml"/>
+    <mapper resource="sqlmap/requestSql.xml"/>
+    <mapper resource="sqlmap/documentSql.xml"/>
+    <mapper resource="sqlmap/payhistorySql.xml"/>
+    <mapper resource="sqlmap/adminSql.xml"/>
+    <mapper resource="sqlmap/centerSql.xml"/>
+  </mappers>
+</configuration>

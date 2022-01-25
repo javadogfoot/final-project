@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="bbs_reSql">
+<!-- 댓글 리스트 -->
+<select id="bbs_reList" parameterType="Map" resultType="com.more.bbs_re.model.Bbs_ReDTO">
+   select * from
+   (select rownum as rnum, a.* from
+   (select * from bbs_re where b_idx = #{b_idx} and lev = 0 order by re_idx desc) a) b
+   where rnum<![CDATA[>=]]>#{start} and rnum<![CDATA[<=]]>#{end}
+</select>
+<!-- 댓글 작성 -->
+<insert id="re_write" parameterType="com.more.bbs_re.model.Bbs_ReDTO">
+   insert into bbs_re
+   values(
+      re_idx_seq.nextval,
+      #{b_idx},
+      #{writer},
+      #{content},
+      sysdate,
+      0,
+      #{ref},
+      0
+   )
+</insert>
+<!-- 대댓글 작성 -->
+<insert id="rere_write" parameterType="com.more.bbs_re.model.Bbs_ReDTO">
+   insert into bbs_re
+   values(
+      re_idx_seq.nextval,
+      #{b_idx},
+      #{writer},
+      #{content},
+      sysdate,
+      0,
+      #{ref},
+      lev_seq.nextval
+   )
+</insert>
+<!-- ref최대값 -->
+<select id="maxref" resultType="String">
+   select max(ref) from bbs_re
+</select>
+<!-- 대댓글 리스트 -->
+<select id="rereList" parameterType="Integer" resultType="com.more.bbs_re.model.Bbs_ReDTO">
+   select * from
+   bbs_re
+   where b_idx = #{b_idx}
+</select>
+<!-- 댓글 수정 -->
+<update id="bbs_reUpdate" parameterType="com.more.bbs_re.model.Bbs_ReDTO">
+   update bbs_re set
+   content = #{content}
+   where re_idx = #{re_idx}
+</update>
+<!-- 댓글 삭제 -->
+<update id="bbs_reDel" parameterType="Integer">
+   update bbs_re set
+   del = 1
+   where ref = #{ref}
+</update>
+<!-- 대댓글삭제 -->
+<update id="bbs_rereDel" parameterType="Integer">
+   update bbs_re set
+   del = 1
+   where re_idx = #{re_idx}
+</update>
+<!-- 댓글 갯수 -->
+<select id="bbs_reCount" parameterType="Integer" resultType="Integer">
+   select count(*) from 
+   bbs_re where b_idx = #{b_idx} and del = 0
+</select>
+<!-- 대댓글 갯수 -->
+<select id="bbs_rereCount" parameterType="Integer" resultType="Integer">
+   select count(*) from 
+   bbs_re where lev != 0
+   and ref = #{ref} and del = 0
+</select>
+<!-- 댓글 총개수 -->
+<select id="bbs_reTotalCnt" resultType="Integer">
+   select count(*) from bbs_re
+   where lev = 0 and b_idx = #{b_idx}
+</select>
+ </mapper>

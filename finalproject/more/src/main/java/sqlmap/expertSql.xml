@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ <mapper namespace="expertSql">
+ 	<!-- 전문가 등록 -->
+ 	<insert id="expertJoin" parameterType="java.util.HashMap">
+ 		insert into
+ 			e_member
+ 		values (
+ 			e_idx_seq.nextval,
+ 			#{id},
+ 			#{cate1},
+ 			#{cate2},
+ 			#{ls_location},
+ 			#{process},
+ 			#{intro},
+ 			#{univ},
+ 			#{major},
+ 			#{career},
+ 			#{cer},
+ 			#{bank},
+ 			#{account}
+ 		)
+ 	</insert>
+ 	<!-- 전문가 등록 의뢰인 상태 변경 -->
+ 	<update id="expertStatus" parameterType="String">
+ 		update 
+ 		member 
+ 		set status = 2
+ 		where id = #{id}
+ 	</update>
+ 	<!-- 후기 목록  -->
+ 	<select id="expertReviewList" parameterType="Map" resultType="com.more.review.model.ReviewDTO">
+    	select * from
+      	(select rownum as rnum,a.* from
+      	(select * from review where e_id=#{id} order by rv_idx desc)a)b
+     	 where rnum<![CDATA[>=]]>#{start} and rnum<![CDATA[<=]]>#{end}
+    </select>
+    <!-- 후기 개수  -->
+    <select id="reviewCnt" parameterType="String" resultType="Integer">
+    	select count(*) from review where e_id=#{id}
+    </select>
+    <!-- 제안서 개수  -->
+    <select id="suggestCnt" parameterType="String" resultType="Integer">
+    	select count(*) from suggest where id=#{id}
+    </select>
+    <!-- 제안서 목록  -->
+    <select id="expertSuggestList" parameterType="Map" resultType="com.more.suggest.model.SuggestDTO">
+    	select * from
+      	(select rownum as rnum,a.* from
+      	(select * from suggest where id=#{id} order by s_idx desc)a)b
+     	 where rnum<![CDATA[>=]]>#{start} and rnum<![CDATA[<=]]>#{end}
+    </select>
+ 	<!-- 전문가 프로필 -->
+	<select id="expertProfile" parameterType="String" resultType="com.more.expert.model.ExpertDTO">
+       select * from 
+          e_member a 
+       join 
+          member b 
+       on 
+          a.id = b.id 
+       where 
+          a.id=#{id}
+    </select>
+    <!-- 전문가 정보 -->
+    <select id="expertInfo" parameterType="String" resultType="com.more.expert.model.ExpertDTO">
+       select * from
+          e_member
+       where 
+          id=#{id}
+    </select>
+    <!-- 전문가 소개 수정 -->
+    <update id="expertIntro" parameterType="com.more.expert.model.ExpertDTO">
+       update 
+          e_member
+       set
+          intro=#{intro}
+       where
+          id=#{id}
+    </update>
+    <!-- 전문가 계좌 수정 -->
+    <update id="expertAccount" parameterType="com.more.expert.model.ExpertDTO">
+       update 
+          e_member
+       set
+          bank=#{bank},
+          account=#{account}
+       where
+          id=#{id}
+    </update>
+    <!-- 전문가 학력 수정 -->
+    <update id="expertSpec" parameterType="com.more.expert.model.ExpertDTO">
+       update
+          e_member
+       set
+          univ=#{univ},
+          major=#{major},
+          career=#{career},
+          cer=#{cer}
+       where
+          id=#{id}
+    </update>
+    <!-- 전문가 주소 수정 -->
+    <update id="expertLocation" parameterType="com.more.expert.model.ExpertDTO">
+       update
+          e_member
+       set
+          ls_location=#{ls_location}
+       where
+          id=#{id}
+    </update>
+    <!-- 전문가 카테고리 수정 -->
+        <update id="expertCate" parameterType="com.more.expert.model.ExpertDTO">
+    	update
+    		e_member
+    	set
+    		cate1=#{cate1},
+    		cate2=#{cate2}
+    	where
+    		id=#{id}
+    </update>
+ </mapper>

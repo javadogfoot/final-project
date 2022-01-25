@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ <mapper namespace="suggestSql">
+ 	<!-- 제안서 목록 -->
+ 	<select id="suggestList" parameterType="Map" resultType="com.more.suggest.model.SuggestDTO">
+		select * from
+		(select rownum as rnum, a. * from
+		(select * from suggest join member on suggest.id=member.id where cate1=#{cate1} and cate2=#{cate2} )a)b 
+		where rnum <![CDATA[>=]]> #{start} and rnum <![CDATA[<=]]> #{end}
+ 	</select>
+ 	<!-- 총 제안서 수 -->
+ 	<select id="suggestCount" parameterType="Map" resultType="Integer">
+ 		select 
+ 			count(*)
+ 		from suggest
+ 		where cate1=#{cate1} and cate2=#{cate2}
+ 	</select>
+ 	<!-- 제안서 작성 -->
+    <insert id="suggestWrite" parameterType="com.more.suggest.model.SuggestDTO">
+       insert into
+          suggest
+       values(
+          s_idx_seq.nextval,
+          #{id},
+          #{cate1},
+          #{cate2},
+          #{start_date},
+          #{end_date},
+          #{day},
+          #{start_time},
+          #{end_time},
+          #{cost},
+          #{process},
+          #{ls_location},
+          #{s_intro},
+          default
+       )
+    </insert>
+    <!-- 제안서 정보 -->
+		<select id="suggestInfo" parameterType="Integer" resultType="com.more.suggest.model.SuggestDTO">
+		select * from
+			suggest
+		where
+			s_idx=#{s_idx}
+		</select>
+		<!-- 제안서 수정 -->
+		<update id="suggestUpdate" parameterType="com.more.suggest.model.SuggestDTO">
+		update
+			suggest
+		set
+			cate1=#{cate1},
+			cate2=#{cate2},
+			start_date=#{start_date},
+			end_date=#{end_date},
+			day=#{day},
+			start_time=#{start_time},
+			end_time=#{end_time},
+			cost=#{cost},
+			process=#{process},
+			ls_location=#{ls_location},
+			s_intro=#{s_intro}
+		where
+			s_idx=#{s_idx}
+ 	</update>
+ 	<!-- 제안서 삭제 -->
+ 	<delete id="suggestDelete" parameterType="Integer">
+ 		delete from
+ 			suggest
+ 		where
+ 			s_idx=#{s_idx}
+ 	</delete>
+    <!-- 요청서에 제안하기 -->
+    <insert id="requestSuggest" parameterType="com.more.suggest.model.SuggestDTO">
+    	insert into
+    	suggest
+ 	    values(
+          s_idx_seq.nextval,
+          #{id},
+          #{cate1},
+          #{cate2},
+          #{start_date},
+          #{end_date},
+          #{day},
+          #{start_time},
+          #{end_time},
+          #{cost},
+          #{process},
+          #{ls_location},
+          #{s_intro},
+          #{m_id}
+       )
+    </insert>
+     <!-- 전문가 제안서 본문 -->
+    <select id="sugContent" parameterType="Integer" resultType="com.more.suggest.model.SuggestDTO">
+      select suggest.*, member.name, member.addr, member.tel, member.email, member.pic_path
+      from suggest join member
+      on suggest.id = member.id
+      where s_idx=#{s_idx}
+   </select>
+   <select id="sugContent2" parameterType="Integer" resultType="com.more.suggest.model.SuggestDTO">
+      select e_member.*, suggest.s_idx
+      from suggest join e_member
+      on suggest.id = e_member.id
+      where s_idx=#{s_idx}
+   </select>
+   <select id="costMemberInfo" parameterType="String" resultType="com.more.member.model.MemberDTO">
+      select * from member
+      where id = #{sessionId}
+   </select>
+   
+   <!-- 결제내역 저장 -->
+   <insert id="savePayHistory" parameterType="com.more.payhistory.model.PayhistoryDTO">
+      insert into
+      payhistory
+      values(
+      p_idx_seq.nextval,
+      #{d_idx},
+      #{m_id},
+      #{e_id},
+      #{cost},
+      default,
+      default
+      )
+   </insert>
+   <!-- d_idx가져오기 -->
+    <select id="getDidx" parameterType="com.more.document.model.DocumentDTO" resultType="Integer">
+        select max(d_idx)
+        from document
+        where e_id = #{e_id}
+        and m_id = #{m_id}
+    </select>
+      <!-- 보낸 제안 -->
+   <select id="sentSuggest" parameterType="Map" resultType="com.more.suggest.model.SuggestDTO">
+      select * from
+      (select rownum as rnum, a. * from
+      (select * from suggest where id = #{id})a)b 
+      where rnum <![CDATA[>=]]> #{start} and rnum <![CDATA[<=]]> #{end}
+   </select>
+   <!-- 총 보낸 제안서 수 -->
+   <select id="sentSuggestCount" parameterType="String" resultType="Integer">
+      select
+         count(*)
+      from suggest
+      where id = #{id}
+   </select>
+   <!-- 받은 제안 -->
+   <select id="receiveSuggest" parameterType="Map" resultType="com.more.suggest.model.SuggestDTO">
+      select * from
+      (select rownum as rnum, a. * from
+      (select * from suggest where m_id = #{id})a)b 
+      where rnum <![CDATA[>=]]> #{start} and rnum <![CDATA[<=]]> #{end}
+   </select>
+   <!-- 총 받은 제안서 수 -->
+   <select id="receiveSuggestCount" parameterType="String" resultType="Integer">
+      select 
+         count(*)
+      from suggest
+      where m_id = #{id}
+   </select>
+   <!-- 결제 완료 페이지에서 document테이블에 저장 -->
+   <insert id="saveDocument"
+      parameterType="com.more.document.model.DocumentDTO">
+      insert into
+      document
+      values(
+      d_idx_seq.nextval,
+      #{e_id},
+      #{m_id},
+      #{s_idx},
+      #{cate1},
+      #{cate2},
+      1
+      )
+   </insert>
+ </mapper>

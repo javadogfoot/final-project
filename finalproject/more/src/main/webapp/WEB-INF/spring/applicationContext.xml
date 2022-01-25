@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	<!-- DBCP -->
+    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
+        <property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"></property>
+        <property name="url" value="jdbc:oracle:thin:@localhost:1521:xe"></property>
+        <property name="username" value="more"></property>
+        <property name="password" value="1234"></property>
+    </bean>
+    <!-- MyBatis -->
+	<bean id="transactionManger" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource"></property>	
+	</bean>   
+	<bean id="sqlSessionFactoryBean" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource"></property>
+		<property name="configLocation" value="classpath:/mybatis-config.xml"></property>
+	</bean>
+	<bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg name="sqlSessionFactory" ref="sqlSessionFactoryBean"></constructor-arg>
+	</bean>
+    <!-- DAO -->
+    <bean id="memberDao" class="com.more.member.model.MemberDAOImple">
+    	<constructor-arg ref="sqlSessionTemplate"></constructor-arg>
+    </bean>
+    <bean id="reviewDao" class="com.more.review.model.ReviewDAOImple">
+    	<constructor-arg ref="sqlSessionTemplate"></constructor-arg>
+    </bean>
+    <bean id="expertDao" class="com.more.expert.model.ExpertDAOImple">
+    	<constructor-arg ref="sqlSessionTemplate"></constructor-arg>
+    </bean>
+    <bean id="suggestDao" class="com.more.suggest.model.SuggestDAOImple">
+    	<constructor-arg ref="sqlSessionTemplate"></constructor-arg>
+    </bean>
+    <bean id="requestDao" class="com.more.request.model.RequestDAOImple">
+    	<constructor-arg ref="sqlSessionTemplate"></constructor-arg>
+    </bean>
+	<bean id="bbsDao" class="com.more.bbs.model.BbsDAOImple">
+		<constructor-arg ref="sqlSessionTemplate"></constructor-arg>
+	</bean>
+    <bean id="bbs_reDao" class="com.more.bbs_re.model.Bbs_ReDAOImple">
+      <constructor-arg ref="sqlSessionTemplate"></constructor-arg>
+   </bean>
+   <bean id="documentDao" class="com.more.document.model.DocumentDAOImple">
+    	<constructor-arg ref="sqlSessionTemplate"></constructor-arg>
+    </bean>
+    <bean id="payhistoryDao" class="com.more.payhistory.model.PayhistoryDAOImple">
+    	<constructor-arg ref="sqlSessionTemplate"></constructor-arg>
+    </bean>
+    <bean id="adminDao" class="com.more.admin.model.AdminDAOImple">
+       <constructor-arg ref="sqlSessionTemplate"></constructor-arg>
+    </bean>
+    <bean id="centerDao" class="com.more.center.model.CenterDAOImple">
+     <constructor-arg ref="sqlSessionTemplate"></constructor-arg>
+    </bean>
+    <!-- Service -->
+    <bean id="memberService" class="com.more.member.model.MemberServiceImple">
+    	<property name="memberDao" ref="memberDao"></property>
+    </bean>
+
+    <bean id="reviewService" class="com.more.review.model.ReviewServiceImple">
+        <property name="reviewDao" ref="reviewDao"></property>
+   </bean>
+   <bean id="expertService" class="com.more.expert.model.ExpertServiceImple">
+   		<property name="expertDao" ref="expertDao"></property>
+   </bean>
+   <bean id="suggestService" class="com.more.suggest.model.SuggestServiceImple">
+   		<property name="suggestDao" ref="suggestDao"></property>
+   </bean>
+   <bean id="requestService" class="com.more.request.model.RequestServiceImple">
+   		<property name="requestDao" ref="requestDao"></property>
+   </bean>
+   <bean id="bbsService" class="com.more.bbs.model.BbsServiceImple">
+      <property name="bbsDao" ref="bbsDao"></property>
+   </bean>
+   <bean id="bbs_reService" class="com.more.bbs_re.model.Bbs_ReServiceImple">
+      <property name="bbs_reDao" ref="bbs_reDao"></property>
+   </bean>
+   <bean id="documentService" class="com.more.document.model.DocumentServiceImple">
+   		<property name="documentDao" ref="documentDao"></property>
+   </bean>
+   <bean id="payhistoryService" class="com.more.payhistory.model.PayhistoryServiceImple">
+   		<property name="payhistoryDao" ref="payhistoryDao"></property>
+   </bean>
+   <bean id="adminService" class="com.more.admin.model.AdminServiceImple">
+        <property name="adminDao" ref="adminDao"></property>
+   </bean>
+   <bean id="centerService" class="com.more.center.model.CenterServiceImple">
+        <property name="centerDao" ref="centerDao"></property>
+   </bean>
+   	<!-- Mail -->
+	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+		 <property name="host" value="smtp.gmail.com"/> <!-- 메이서버 호스트 -->
+		 <property name="port" value="587"/> <!-- 메이서버 포트번호 -->
+		 <property name="username" value="morejh4485@gmail.com"/> <!-- 자신의 이메일 아이디 -->
+		 <property name="password" value="Rhwnghks4485!"/> <!-- 자신의 비밀번호 -->
+	 <!-- 보안연결 SSL과 관련된 설정 -->
+	 <property name="javaMailProperties">
+		  <props>
+			  <prop key="mail.smtp.auth">true</prop>
+			  <prop key="mail.smtp.starttls.enable">true</prop>
+			  <prop key="mail.smtps.checkserveridentity">true</prop>
+			  <prop key="mail.smtps.ssl.trust">*</prop>
+			  <prop key="mail.debug">true</prop>
+			  <prop key="mail.smtp.socketFactory.class">javax.net.ssl.SSLSocketFactory</prop>
+		  </props>
+	 </property>
+	</bean>
+</beans>

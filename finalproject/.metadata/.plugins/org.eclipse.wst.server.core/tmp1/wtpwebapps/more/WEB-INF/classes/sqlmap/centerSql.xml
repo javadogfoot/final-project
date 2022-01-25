@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="centerSql">
+   <!-- 공지사항 목록 -->
+   <select id="noticeList" parameterType="Map" resultType="com.more.center.model.CenterDTO">
+      select * from
+      (select rownum as rnum, a. * from
+      (select * from notice order by n_idx desc)a)b 
+      where rnum <![CDATA[>=]]> #{start} and rnum <![CDATA[<=]]> #{end}
+   </select>
+   <!-- 관리자 공지사항 목록 -->
+ 	<select id="adminNoticeList" parameterType="Map" resultType="com.more.center.model.CenterDTO">
+	   select * from
+	   (select rownum as rnum, a.* from
+	   (select * from notice where content like '%'||#{keyWord}||'%'
+	   order by n_idx desc)a)b
+	   where rnum<![CDATA[>=]]>#{start} and rnum<![CDATA[<=]]>#{end}
+	</select>
+   <!-- 총 공지사항 수 -->
+   <select id="noticeCount" resultType="Integer">
+      select
+         count(*)
+      from notice
+   </select>
+   <!-- 검색 공지사항 수 -->
+   <select id="noticeSearchCount" parameterType="Map" resultType="Integer">
+	  select count(*) from notice where content like '%'||#{keyWord}||'%'
+	</select>
+   <!-- 공지사항 본문보기 -->
+   <select id="noticeContent" parameterType="Integer" resultType="com.more.center.model.CenterDTO">
+      select
+         *
+      from notice
+      where n_idx = #{n_idx}
+   </select>
+   <!-- 공지사항 조회수 -->
+   <update id="noticeReadCnt" parameterType="Integer">
+      update
+         notice
+      set readcnt = readcnt + 1 
+      where n_idx = #{n_idx}
+   </update>
+   <!-- QNA 목록 -->
+   <select id="qnaList" parameterType="Map" resultType="com.more.center.model.CenterDTO">
+      select * from
+      (select rownum as rnum, a. * from
+      (select * from qna where a_no=0)a)b 
+      where rnum <![CDATA[>=]]> #{start} and rnum <![CDATA[<=]]> #{end}
+   </select>
+      <!-- 관리자 QNA 목록 -->
+ 	<select id="adminQnaList" parameterType="Map" resultType="com.more.center.model.CenterDTO">
+	   select * from
+	   (select rownum as rnum, a.* from
+	   (select * from qna where content like '%'||#{keyWord}||'%'
+	   order by q_idx desc)a)b
+	   where rnum<![CDATA[>=]]>#{start} and rnum<![CDATA[<=]]>#{end}
+	</select>
+   <!-- 총 QNA 수 -->
+   <select id="qnaCount" resultType="Integer">
+      select
+         count(*)
+      from qna
+   </select>
+   <!-- 검색 QNA 수 -->
+   <select id="qnaSearchCount" parameterType="Map" resultType="Integer">
+	  select count(*) from qna where content like '%'||#{keyWord}||'%'
+	</select>
+ 
+   <!-- QNA 답변 -->
+   <select id="qnaAnswer" parameterType="String" resultType="com.more.center.model.CenterDTO">
+      select
+         *
+      from qna
+      where a_no = #{a_no}
+   </select>
+   <!-- QNA 질문 글쓰기-->
+   <insert id="qnaWrite" parameterType="Map">
+      insert
+      into qna
+      values(Q_IDX_SEQ.NEXTVAL,
+          DEFAULT,
+          #{cate}, 
+          #{title}, 
+          #{content}, 
+          #{writer}, 
+          DEFAULT
+      )
+   </insert>
+     <!-- QNA 질문 내용 -->
+   <select id="qnaInfo" parameterType="Integer" resultType="com.more.center.model.CenterDTO">
+   		select * from qna where q_idx=#{q_idx}
+   </select>
+     <!-- QNA 답변 글쓰기 -->
+  <insert id="qnaAnswerWrite" parameterType="com.more.center.model.CenterDTO">
+      insert into 
+      	qna
+      values(Q_IDX_SEQ.NEXTVAL,
+          #{a_no},
+          #{cate}, 
+          #{title}, 
+          #{content}, 
+          '관리자', 
+          DEFAULT
+      )
+   </insert>
+   <!-- 공지사항 삭제 -->
+   <delete id="noticeDel" parameterType="Integer">
+   		delete from
+   			notice
+   		where
+   			n_idx=#{n_idx}
+   </delete>
+    <!-- QNA 삭제 -->
+   <delete id="qnaDel" parameterType="Integer">
+   		delete from
+   			qna
+   		where
+   			q_idx=#{q_idx}
+   </delete>
+   <!-- 공지사항 글쓰기 -->
+   <insert id="noticeWrite" parameterType="com.more.center.model.CenterDTO">
+   		insert into
+   			notice
+   		values(
+   			n_idx_seq.nextval,
+   			#{title},
+   			#{content},
+   			'관리자',
+   			sysdate,
+   			0
+   		)
+   </insert>
+   <!-- 공지사항 수정 -->
+   <update id="noticeUpdate" parameterType="com.more.center.model.CenterDTO">
+   		update
+   			notice
+   		set
+   			title=#{title},
+   			content=#{content}
+   		where
+   			n_idx=#{n_idx}
+   </update>
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+</mapper>

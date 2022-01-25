@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="memberSql">
+	<!-- 회원가입 -->
+	<insert id="memberJoin" parameterType="com.more.member.model.MemberDTO">
+		insert into
+		member
+		values (
+			m_idx_seq.nextval,
+			#{id},
+			#{pwd},
+			#{name},
+			#{email},
+			#{tel},
+			#{zip_code},
+			#{addr},
+			#{d_addr},
+			#{pic_path},
+			default
+		)
+	</insert>
+	<!-- 아이디 중복 검사 -->
+	<select id="idCheck" parameterType="String" resultType="Integer">
+		select count(*)
+		from member
+		where id = #{id}
+	</select>
+	<!-- 로그인 -->
+	<select id="login" parameterType="String" resultType="String">
+		select pwd
+		from member
+		where id = #{id}
+	</select>
+	<!-- 세션 회원 이름 -->
+	<select id="sessionName" parameterType="String" resultType="String">
+		select name
+		from member
+		where id = #{id}
+	</select>
+	<!-- 세션 회원 상태 -->
+	<select id="sessionStatus" parameterType="String" resultType="Integer">
+		select status
+		from member
+		where id = #{id}
+	</select>
+	<!-- 내 설정 -->
+	<select id="setting" parameterType="String" resultType="com.more.member.model.MemberDTO">
+		select * 
+		from member
+		where id = #{id}
+	</select>
+	<!-- 계정 수정 -->
+	<update id="accountRevise" parameterType="String">
+		update
+		member 
+		set pwd = #{pwd},
+		email = #{email},
+		tel = #{tel},
+		zip_code = #{zip_code},
+		addr = #{addr},
+		d_addr = #{d_addr},
+		pic_path = #{pic_path}
+		where id = #{id}
+	</update>
+	<!-- 계정 수정 현재 사진 -->
+	<select id="accountRevisePic_path" parameterType="String" resultType="String">
+		select pic_path
+		from member
+		where id = #{id}
+	</select>
+	<!-- 회원 삭제 -->
+	<!-- <delete id="memberDelete" parameterType="String">
+		delete 
+		from member
+		where id = #{id}
+	</delete> -->
+	<!-- 회원 탈퇴 -->
+	<update id="memberDelete" parameterType="String">
+		update 
+			member
+		set
+			status=3
+		where
+			id=#{id}
+	</update>
+	<!-- 회원 아이디와 메일 일치 체크 -->
+	<select id="mailIdCheck" parameterType="String" resultType="String">
+		select 
+			email
+		from member
+		where id = #{id}
+	</select>
+	<!-- 아이디 찾기 -->
+	<select id="findId" parameterType="String" resultType="String">
+		select
+			id
+		from member
+		where email = #{email}
+	</select>
+	<!-- 이메일 존재 여부 -->
+	<select id="emailCount" parameterType="String" resultType="Integer">
+		select
+			count(*)
+		from member
+		where email = #{email}
+	</select>
+	<!-- 비밀번호 찾기 -->
+	<select id="findPassword" parameterType="String" resultType="String">
+		select
+			pwd
+		from member
+		where id = #{id}
+	</select>
+</mapper>

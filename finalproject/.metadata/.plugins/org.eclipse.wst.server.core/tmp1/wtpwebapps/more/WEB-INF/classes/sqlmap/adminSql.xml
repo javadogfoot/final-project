@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="adminSql">
+
+   <!-- 관리자 로그인 -->
+   <select id="adminLogin" parameterType="String"
+      resultType="String">
+      select pwd
+      from admin
+      where id = #{id}
+   </select>
+
+   <!-- 세션 관리자 상태 -->
+   <select id="sessionAdminStatus" parameterType="String"
+      resultType="Integer">
+      select status
+      from admin
+      where id = #{id}
+   </select>
+
+   <!-- 마스터 권한으로 매니저 추가 -->
+   <insert id="addManager"
+      parameterType="com.more.admin.model.AdminDTO">
+      insert into
+      admin
+      values(
+      a_idx_seq.nextval,
+      #{id},
+      #{pwd},
+      #{name},
+      #{email},
+      #{tel},
+      9
+      )
+   </insert>
+
+   <!-- 매니저 리스트 -->
+   <select id="listManager"
+      resultType="com.more.admin.model.AdminDTO">
+      select *
+      from admin
+      where status = 9
+      order by idx
+   </select>
+
+   <!-- 매니저 삭제 -->
+   <delete id="delManager" parameterType="String">
+      delete from admin
+      where
+      status = 9 and id = #{id}
+   </delete>
+
+   <!-- 관리자 내 정보확인 -->
+   <select id="showAdminInfo" parameterType="String"
+      resultType="com.more.admin.model.AdminDTO">
+      select * from admin where id = #{id}
+   </select>
+
+   <!-- 관리자 내 정보수정 -->
+   <update id="updateAdminInfo"
+      parameterType="com.more.admin.model.AdminDTO">
+      update admin
+      set pwd = #{pwd},
+      name = #{name},
+      email = #{email},
+      tel = #{tel}
+      where id = #{id}
+   </update>
+   
+   <!-- 관리자 유저 의뢰인 리스트 총 수 -->
+   <select id = "clientTotalCnt" resultType="Integer">
+      select count(*) from member where status = 1
+   </select>
+   
+   <!-- 관리자 유저 의뢰인 리스트 총 수(검색) -->
+   <select id = "clientSearchTotalCnt" resultType="Integer">
+      select count(*) from member where id = #{keyWord} and status = 1
+   </select>
+
+   <!-- 관리자 유저 의뢰인 리스트 출력 -->
+   <select id="listClient" parameterType="Map"
+      resultType="com.more.member.model.MemberDTO">
+      select * from
+      (select rownum as rnum, a.* from
+      (select * from member where status = 1 order by m_idx desc)a)b
+      where rnum<![CDATA[>=]]>#{start} and rnum<![CDATA[<=]]>#{end}
+   </select>
+   
+   <!-- 관리자 유저 의뢰인 리스트 출력(검색) -->
+   <select id="listSearchClient" parameterType="Map"
+      resultType="com.more.member.model.MemberDTO">
+      select * from
+      (select rownum as rnum, a.* from
+      (select * from member where id = #{keyWord} and status = 1 
+      order by m_idx desc)a)b
+      where rnum<![CDATA[>=]]>#{start} and rnum<![CDATA[<=]]>#{end}
+   </select>
+   
+   <!-- 관리자 유저 의뢰인 삭제 -->
+   <update id="delClient" parameterType="String">
+      update member
+      set status = 3
+      where id = #{id}
+   </update>
+   
+   <!-- 관리자 수익현황 결제 완료 리스트 총 수 -->
+   <select id="paymentCompleteTotalCnt" resultType="Integer">
+      select count(*)
+      from payhistory where status = 1
+   </select>
+
+   <!-- 관리자 수익현황 결제 완료 테이블 -->
+   <select id="listPaymentComplete" parameterType="Map"
+      resultType="com.more.payhistory.model.PayhistoryDTO">
+      select * from
+      (select rownum as rnum, a.* from
+      (select * from payhistory
+      where status = 1 order by p_idx desc)a)b
+      where rnum<![CDATA[>=]]>#{startP}
+      and rnum<![CDATA[<=]]>#{endP}
+   </select>
+
+   <!-- 관리자 수익현황 결제 완료 수익금 총 합 -->
+   <select id="getSumPaymentCompleteCost" resultType="Integer">
+      select
+      nvl(sum(cost),0) from payhistory where status = 1
+   </select>
+
+   <!-- 관리자 수익현황 환불 요청 리스트 총 수 -->
+   <select id="requestRefundTotalCnt" resultType="Integer">
+      select count(*)
+      from payhistory where status = 2
+   </select>
+
+   <!-- 관리자 수익현황 환불 요청 테이블 -->
+   <select id="listRequestRefund" parameterType="Map"
+      resultType="com.more.payhistory.model.PayhistoryDTO">
+      select * from
+      (select rownum as rnum, a.* from
+      (select * from payhistory
+      where status = 2 order by p_idx desc)a)b
+      where rnum<![CDATA[>=]]>#{startR}
+      and rnum<![CDATA[<=]]>#{endR}
+   </select>
+
+   <!-- 관리자 수익현황 환불 요청 금액 총 합 -->
+   <select id="getSumRequestRefundCost" resultType="Integer">
+      select nvl(sum(cost),0)
+      from payhistory where status = 2
+   </select>
+   
+   <!-- 관리자 수익현황 환불 완료 리스트 총 수 -->
+   <select id="refundDoneTotalCnt" resultType="Integer">
+      select count(*) from payhistory where status = 3
+   </select>
+   
+   <!-- 관리자 수익현황 환불 완료 리스트 테이블 -->
+   <select id="listRefundDone" parameterType="Map"
+      resultType="com.more.payhistory.model.PayhistoryDTO">
+      select * from
+      (select rownum as rnum, a.* from
+      (select * from payhistory
+      where status = 3 order by p_idx desc)a)b
+      where rnum<![CDATA[>=]]>#{startRd}
+      and rnum<![CDATA[<=]]>#{endRd}
+   </select>
+
+   <!-- 관리자 수익현황 환불 완료 리스트 총 합 -->
+   <select id="getSumRefundDoneCost" resultType="Integer">
+      select nvl(sum(cost),0)
+      from payhistory where status = 3
+   </select>
+   
+   <!-- 관리자 환불 완료 버튼 -->
+   <update id="refundComplete" parameterType="Integer">
+      update payhistory
+      set status = 3
+      where p_idx = #{p_idx}
+   </update>
+  
+   
+   
+   <!-- =========유저관리 전문가관리========== -->
+   <!-- 관리자 유저관리 전문가 리스트 출력 -->
+   <select id="expertList" parameterType="Map" resultType="com.more.suggest.model.SuggestDTO">
+     select * from
+      (select rownum as rnum, a.* from
+      (select e_member.*, member.name, member.tel, member.status
+     from e_member join member
+     on e_member.id = member.id and status != 3
+     ORDER BY e_idx DESC)a)b
+      where rnum<![CDATA[>=]]>#{start} and rnum<![CDATA[<=]]>#{end}
+   </select>
+   
+   <!-- 관리자 유저관리 전문가 리스트 출력(검색) -->
+   <select id="expertSearchList" parameterType="Map" resultType="com.more.suggest.model.SuggestDTO">
+      select * from
+      (select rownum as rnum, a.* from
+      (select e_member.*, member.name, member.tel, member.status
+     from e_member join member
+     on e_member.id = member.id where e_member.id = #{keyWord} and status != 3
+     ORDER BY e_idx DESC)a)b
+      where rnum<![CDATA[>=]]>#{start} and rnum<![CDATA[<=]]>#{end}
+   </select>
+   
+   <!-- 전문가 총 수 -->
+   <select id="adminExpertTotalCnt" resultType="Integer">
+      select count(*) from member
+      where status = 2
+   </select>
+   <!-- 검색된 전문가 총 수 -->
+   <select id="adminExpertSearchTotalCnt" resultType="Integer">
+      select count(*) from member where id = #{keyWord} and status = 2
+   </select>
+   <!-- 전문가 탈퇴(status 3) -->
+   <update id="expertDel" parameterType="String">
+      update member set status = 3
+      where id = #{id}
+   </update>
+   
+   <!-- =======유저관리 탈퇴회원========= -->
+   <!-- 탈퇴회원 리스트 출력 -->
+   <select id="outMemberList" parameterType="Map" resultType="com.more.member.model.MemberDTO">
+     select * from
+      (select rownum as rnum, a.* from
+      (select * from member where status = 3 order by m_idx desc)a)b
+      where rnum<![CDATA[>=]]>#{start} and rnum<![CDATA[<=]]>#{end}
+   </select>
+   
+   <!-- 탈퇴회원 리스트 출력(검색) -->
+   <select id="outMemberSearchList" parameterType="Map" resultType="com.more.member.model.MemberDTO">
+      select * from
+      (select rownum as rnum, a.* from
+      (select * from member where id = #{keyWord} and status = 3 
+      order by m_idx desc)a)b
+      where rnum<![CDATA[>=]]>#{start} and rnum<![CDATA[<=]]>#{end}
+   </select>
+   
+   <!-- 탈퇴회원 총수 -->
+   <select id="outMemberTotalCnt" resultType="Integer">
+      select count(*) from member
+      where status = 3
+   </select>
+   
+   <!-- 검색된 탈퇴회원 총 수 -->
+   <select id="outMemberSearchTotalCnt" resultType="Integer">
+      select count(*) from member where id = #{keyWord} and status = 3
+   </select>
+  
+    <!-- 관리자 환불 완료 버튼 document delete-->
+   <delete id="refundCompleteDoc" parameterType="Integer">
+          delete from document
+          where d_idx = #{d_idx}
+   </delete>
+</mapper>

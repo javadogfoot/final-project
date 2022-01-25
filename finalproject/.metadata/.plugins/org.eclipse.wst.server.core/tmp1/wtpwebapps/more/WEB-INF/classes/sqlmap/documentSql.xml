@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ <mapper namespace="documentSql">
+ 	<!-- 전문가의 레슨 목록 -->
+	<select id="e_documentList" parameterType="Map" resultType="com.more.document.model.DocumentDTO">
+		select * from
+      	(select rownum as rnum,a.* from
+      	(select * from document where e_id=#{id} order by d_idx desc)a)b
+     	 where rnum<![CDATA[>=]]>#{start} and rnum<![CDATA[<=]]>#{end}
+ 	</select>
+ 	<!-- 전문가의 레슨 개수  -->
+    <select id="e_documentCnt" parameterType="String" resultType="Integer">
+    	select count(*) from document where e_id=#{id}
+    </select>
+     	<!--체결레슨 본문 -->
+ 	<select id="documentContent" parameterType="Integer" resultType="com.more.document.model.DocumentDTO">
+ 		select 
+ 			a.*,
+ 			b.*,
+ 			c.name as m_name, c.email as m_email, c.tel as m_tel, c.pic_path as m_pic_path,
+ 			d.name as e_name, d.email as e_email, d.tel as e_tel, d.pic_path as e_pic_path,
+            e.p_idx, e.status as p_status
+ 		from
+ 			document a
+ 		join
+ 			suggest b
+ 		on
+ 			a.s_idx=b.s_idx
+ 		join
+ 			member c
+ 		on
+ 			a.m_id=c.id
+ 		join
+ 			member d
+ 		on
+ 			a.e_id=d.id
+        join
+            payhistory e
+        on
+            a.d_idx=e.d_idx
+ 		where
+ 			a.d_idx=#{d_idx}
+ 	</select>
+ 	<!-- 의뢰인 나의 레슨 목록 -->
+ 	<select id="m_documentList" parameterType="String" resultType="com.more.document.model.DocumentDTO">
+       select 
+          document.*,
+          suggest.start_date, suggest.end_date, suggest.day,
+          member.name, member.pic_path,
+          e_member.intro
+      from 
+         document
+      join 
+         suggest
+      on 
+         document.s_idx = suggest.s_idx
+      join
+         member
+      on
+         document.e_id = member.id
+      join
+         e_member
+      on
+         document.e_id = e_member.id
+      where 
+         document.m_id = #{sessionId} 
+      or
+      	document.e_id = #{sessionId}
+      	
+    </select>
+    <!-- 전문가 나의 레슨 목록  -->
+    <!-- <select id="expert_documentList" parameterType="String" resultType="com.more.document.model.DocumentDTO">
+       select 
+          document.*,
+          suggest.start_date, suggest.end_date, suggest.day,
+          member.name, member.pic_path,
+          e_member.intro
+      from 
+         document
+      join 
+         suggest
+      on 
+         document.s_idx = suggest.s_idx
+      join
+         member
+      on
+         document.e_id = member.id
+      join
+         e_member
+      on
+         document.e_id = e_member.id
+      where 
+         document.e_id = #{sessionId}
+    </select>  -->
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+ </mapper>

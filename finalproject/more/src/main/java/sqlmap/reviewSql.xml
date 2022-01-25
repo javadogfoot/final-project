@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ <mapper namespace="reviewSql">
+ 	<!-- 총 리뷰 수 -->
+ 	<select id="totalCnt" resultType="Integer">
+      select count(*) from review
+   </select>
+   <select id="reviewSearchTotalCnt" parameterType="Map" resultType="Integer">
+	  select count(*) from review where content like '%'||#{keyWord}||'%'
+	</select>
+    <!-- 총 전문가 수 -->
+   <select id="totalExpertCnt" resultType="Integer">
+   		select count(*) from e_member
+   </select>
+   <!-- 총 요청서 수 -->
+   <select id="totalRequestCnt" resultType="Integer">
+   		select count(*) from request
+   </select>
+   <!-- 리뷰 목록 -->
+   <select id="reviewList" parameterType="Map" resultType="com.more.review.model.ReviewDTO">
+      select * from
+      (select rownum as rnum,a.* from
+      (select * from review order by rv_idx desc)a)b
+      where rnum<![CDATA[>=]]>#{start} and rnum<![CDATA[<=]]>#{end}
+   </select>
+   <!-- 관리자 리뷰 목록 -->
+ 	<select id="adminReviewList" parameterType="Map" resultType="com.more.review.model.ReviewDTO">
+	   select * from
+	   (select rownum as rnum, a.* from
+	   (select * from review where content like '%'||#{keyWord}||'%'
+	   order by rv_idx desc)a)b
+	   where rnum<![CDATA[>=]]>#{start} and rnum<![CDATA[<=]]>#{end}
+	</select>
+   <select id="mainReviewList" resultType="com.more.review.model.ReviewDTO">
+   		select * from review
+   </select>
+   <!-- 리뷰 작성 -->
+   <insert id="reviewWrite" parameterType="com.more.review.model.ReviewDTO">
+      insert into
+         review
+      values(
+         rv_idx_seq.nextval,
+         #{id},
+         #{name},
+         #{lessonlist},
+         #{e_id},
+         #{cate1},
+         #{cate2},
+         #{content},
+         sysdate,
+         #{grade1},
+         #{grade2},
+         #{grade3},
+         #{gradesum}
+      )
+   </insert>
+   <!-- 리뷰 보기 -->
+   <select id="reviewContent" parameterType="Integer" resultType="com.more.review.model.ReviewDTO">
+      select * from review where rv_idx=#{rv_idx}
+   </select>
+   <!-- 리뷰 수정 -->
+   <update id="reviewUpdate" parameterType="com.more.review.model.ReviewDTO">
+   		update
+   			review
+   		set
+   			content=#{content},
+   			grade1=#{grade1},
+   			grade2=#{grade2},
+   			grade3=#{grade3},
+   			gradesum=#{gradesum}
+   		where
+   			rv_idx=#{rv_idx}
+   </update>
+   <!-- 리뷰 삭제 -->
+   <delete id="reviewDelete" parameterType="Integer">
+         delete from
+            review
+         where
+            rv_idx=#{rv_idx}
+   </delete>
+  
+ </mapper>

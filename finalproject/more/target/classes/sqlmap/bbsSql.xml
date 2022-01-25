@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ <mapper namespace="bbsSql">
+ 	<!-- 자유게시판 목록 -->
+ 	<select id="bbsList" parameterType="Map" resultType="com.more.bbs.model.BbsDTO">
+	   select * from
+	   (select rownum as rnum, a.* from
+	   (select * from bbs where title || content like '%'||#{keyWord}||'%'
+	   order by b_idx desc)a)b
+	   where rnum<![CDATA[>=]]>#{start} and rnum<![CDATA[<=]]>#{end}
+	</select>
+	<!-- 게시글 수 -->
+	<select id="bbstotalCnt" resultType="Integer">
+	   select count(*) from bbs
+	</select>
+	<!-- 검색된 글 수 -->
+	<select id="bbssearchTotalCnt" resultType="Integer">
+	   select count(*) from bbs where title || content like '%'||#{keyWord}||'%'
+	</select>
+	<!-- 게시판 글 쓰기 -->
+	<insert id="bbsWrite" parameterType="com.more.bbs.model.BbsDTO">
+	   insert into bbs 
+	   values(
+	      b_idx_seq.nextval, 
+	      #{id},
+	      #{title}, 
+	      #{content}, 
+	      0, 
+	      sysdate, 
+	      #{file_path}
+	   )
+	</insert>
+	<!-- 게시판 목록보기 -->
+	<select id="bbsContent" parameterType="Integer" resultType="com.more.bbs.model.BbsDTO">
+	   select * from bbs
+	   where
+	   b_idx=#{b_idx}
+	</select>
+	<!-- 게시글 수정 -->
+	<update id="bbsUpdate" parameterType="com.more.bbs.model.BbsDTO">
+	   update bbs set
+	   title = #{title},
+	   content = #{content},
+	   file_path = #{file_path}
+	   where b_idx = #{b_idx}
+	</update>
+	<!-- 게시글 삭제 -->
+	<delete id="bbsDel" parameterType="Integer">
+	   delete from bbs
+	   where b_idx = #{b_idx}
+	</delete>
+	<!-- 게시글 조회수 -->
+	<update id="bbsCount" parameterType="Integer">
+	   update bbs set
+	   count = count+1
+	   where b_idx = #{b_idx}
+	</update>
+ </mapper>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<qualifiedTypeNameHistroy>
+    <fullyQualifiedTypeName name="com.more.suggest.model.SuggestDTO"/>
+    <fullyQualifiedTypeName name="java.lang.Math"/>
+    <fullyQualifiedTypeName name="com.more.paging.ExpertPageModule"/>
+    <fullyQualifiedTypeName name="java.sql.Date"/>
+    <fullyQualifiedTypeName name="org.mybatis.spring.SqlSessionTemplate"/>
+    <fullyQualifiedTypeName name="com.more.payhistory.model.PayhistoryDAO"/>
+    <fullyQualifiedTypeName name="org.springframework.stereotype.Controller"/>
+    <fullyQualifiedTypeName name="com.more.payhistory.model.PayhistoryService"/>
+    <fullyQualifiedTypeName name="com.more.member.model.MemberDTO"/>
+    <fullyQualifiedTypeName name="com.more.payhistory.model.PayhistoryDTO"/>
+    <fullyQualifiedTypeName name="javax.servlet.http.HttpServletRequest"/>
+    <fullyQualifiedTypeName name="java.util.List"/>
+    <fullyQualifiedTypeName name="javax.servlet.http.HttpSession"/>
+    <fullyQualifiedTypeName name="com.more.document.model.DocumentService"/>
+    <fullyQualifiedTypeName name="com.more.review.model.ReviewService"/>
+    <fullyQualifiedTypeName name="org.springframework.beans.factory.annotation.Autowired"/>
+    <fullyQualifiedTypeName name="com.more.center.model.CenterService"/>
+    <fullyQualifiedTypeName name="com.more.review.model.ReviewDTO"/>
+    <fullyQualifiedTypeName name="com.more.review.model.ReviewDAO"/>
+    <fullyQualifiedTypeName name="com.more.paging.PageModule"/>
+    <fullyQualifiedTypeName name="java.util.Map"/>
+    <fullyQualifiedTypeName name="java.util.HashMap"/>
+    <fullyQualifiedTypeName name="com.more.center.model.CenterDTO"/>
+    <fullyQualifiedTypeName name="org.springframework.web.servlet.ModelAndView"/>
+    <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.RequestMapping"/>
+    <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.RequestParam"/>
+    <fullyQualifiedTypeName name="com.more.document.model.DocumentDTO"/>
+</qualifiedTypeNameHistroy>

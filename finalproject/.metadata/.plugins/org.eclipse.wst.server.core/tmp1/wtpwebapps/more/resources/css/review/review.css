@@ -1,0 +1,360 @@
+@charset "UTF-8";
+body{
+    margin:0;
+}
+h1{
+    text-align: center;
+}
+h3{
+    margin-top: 80px;
+    text-align: center;
+    font-size: 24px;
+}
+p{
+    text-align: center;
+}
+a{
+    text-decoration:none;
+    color:rgb(26, 25, 25);
+}
+a:hover{
+    color:rgb(26, 25, 25);
+}
+li{
+    list-style: none;
+}
+/* icon */
+.far fa-file-alt{
+    color: #af8c19;
+}
+/* -------------------------main------------------------- */
+.revMainContainer{
+	background-image:url(https://d3cwtye3iv0eb9.cloudfront.net/media/images/part/1544382373866000/pc/origin.jpg);
+	background-repeat:no-repeat;
+	background-size:cover;
+    height: 380px;
+    width: 100%;
+}
+.revMainContainer .revMainTextBox{
+    width: 100%;
+    height: 400px;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin:0 auto;  
+}
+.revMainText{
+    margin:0 auto;
+    width: 550px;
+    height: 400px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.revMainText h1{
+    height: 100px;
+    font-size: 42px;
+    font-weight: bold;
+    color: white;
+    text-align: center;
+}
+.revMainText .revMainBt{
+    width:50%;
+    text-align: center;
+    font-size: 20px;
+    font-weight: bold;
+    border: 3px solid white;
+    color: white;
+    padding: 12px;
+    border-radius: 10px;
+    margin: 50px auto;
+}
+.revMainBt a{
+	color:white;
+	display:block;
+	width:100%;
+	height:100%;
+}
+
+.revMainBt:hover{
+	background-color:white;
+    transition: transform 1s;
+}
+.revMainBt:hover a{
+	color:#ff9797;
+	transform: scale(1.1);
+	transition: transform 1s;
+}
+
+
+/*---------------------------------reviewIntro-------------------------------------- */
+#revIntroContainer{
+    width:100%;
+    height: 200px;
+    margin-top: 30px;
+    display: flex;
+    justify-content: center;
+}
+#revIntroContainer .introItem{
+    width:300px;
+    height:200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;   
+}
+#revIntroContainer .introItem svg{
+	color:#b96161;
+}
+#revIntroContainer .introItem h3{
+    margin-top:30px;
+    margin-bottom:0px;
+    font-weight:bold;
+}
+#revIntroContainer .introItem h4{
+    font-size: 18px;
+    margin-top:10px;
+    font-weight:bold;
+}
+
+/*----------------------------------reviewList-------------------------------------*/
+#revListContainer{
+    width: 1200px;
+    height: 900px;
+    margin:0 auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    gap:10px 10px;
+    justify-items: center;
+}
+
+#revListContainer .revItem{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width:370px;
+    height: 370px;
+    border-radius: 10px;
+    border: 1px solid rgba(139, 122, 122, 0.356);
+    cursor: pointer;
+}
+#revListContainer .revItem:hover{
+	 width:370px;
+    height: 370px;
+	transform: scale(1.03);
+	transition: transform 1s;
+	box-shadow: 1px 1px 3px 1px #bdbfc4;
+}
+.revItem .revCate{
+    height: 40px;
+    margin:5px auto; 
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+    color: #9a5656;
+    padding: 8px;
+    margin-bottom: 30px;
+    border-radius: 10px;
+}
+.revItem .revText{
+    width:80%;
+    height:180px;
+    margin: 0 auto;
+}
+.revItem .revEtc{
+    width:80%;
+    height: 70px;
+    margin: 10px auto;
+    text-align: right;
+    font-size: 17px;
+    vertical-align: bottom;
+}
+.revItem .revEtc .star{
+    width:100%;
+    height: 30px;
+}
+.revItem .revEtc .studentName{
+    margin-top: 7px;
+    font-weight:bold;
+    width:100%;
+    height: 30px;
+}
+.footContainer{
+	text-align:center;
+}
+.footContainer div{
+	font-size: 20px;
+	font-weight: bold;
+	margin-bottom:20px;
+}
+.footContainer input{
+	background-color:#ff9797;
+	width: 340px;
+	color: white;
+    font-size: 25px;
+    border:0px;
+}
+/*-------------------------------------modal*/
+.modalContainer{
+	position: fixed;
+	background: rgba(0,0,0,0.8);
+	left:0; right:0; top:0; bottom:0;
+	display:flex;
+	justify-content: center;
+	align-items: center;
+}
+.modali{
+	width:500px;
+	height:860px;
+	background-color: white;
+    border-radius: 10px;
+    position: relative;
+}
+.reviewDel{
+	position: absolute; 
+	left:75%; 
+	top:10%;
+}
+.reviewDel span{
+	border:1px solid gray; 
+	padding:5px;
+	border-radius: 5px;
+}
+.modali .cate{
+    width:50%;
+    margin: 20px auto;
+    border-radius: 10px;
+    color: white;
+    background-color: #ff9797;
+    font-size: 15px;
+    padding: 10px;
+    text-align: center;
+}
+.modali .content{
+    margin-bottom: 25px;
+    margin-top: 65px;
+    padding-left: 30px;
+    padding-right: 30px;
+    height: 500px;
+}
+.modali .star{
+    text-align: center;
+}
+.modali .studentName{
+    padding: 5px;
+    font-weight:bold;
+    text-align:center;
+}
+.modali .revBt{
+    width: 90%;
+    height: 50px;
+    margin: 15px auto;
+    text-align: center;
+    border-radius: 10px;
+    font-size: 18px;
+    font-weight:bold;
+    line-height: 50px;
+    color: white;
+    background-color: #ff9797;
+    cursor: pointer;
+}
+.modali .revBt:hover{
+	color:#ff9797;
+	background-color: white;
+}
+/*------------------------------------- reviewWriteForm */
+
+.writeContainer{
+    margin:0 auto;
+    width:700px;
+    height:1600px;
+}
+.writeContainer .writer{
+    width:100%;
+    height:70px;
+}
+.writeContainer input, select{
+    width:100%;
+    height:70px;
+    font-size:23px;
+    margin-bottom: 40px;
+    border:0px;
+    border-radius:5px;
+    box-shadow: 1px 1px 3px 1px #bdbfc4;
+}
+option{
+	font-size:20px;
+}
+.writeContainer textarea{
+    font-size:18px;
+    margin-top:40px;
+    border:0px;
+    border-radius:5px;
+    box-shadow: 1px 1px 3px 1px #bdbfc4;
+}
+.writeContainer .rating{
+    width:100%;
+    height:110px;
+    color:#000;
+    
+}
+.writeContainer .ratingContainer{
+    width:100%;
+    height: 400px;
+    margin-top: 30px;
+    margin-bottom: 50px;
+    text-align: center;
+}
+.ratingContainer h4{
+	font-size:25px;
+}
+.ratingContainer .rating svg{
+	color:black;
+	cursor:pointer;
+}
+.ratingItem{
+	display: flex;
+    justify-content: center;
+    padding-left: 50px;
+    width: 100%;
+    height: 80px;
+}
+.ratingItem h4{
+	font-size: 27px;
+    font-weight: bold;
+    color: #776161;
+    margin-right: 30px;
+    line-height: 50px;
+}
+.writeButton{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.writeButton input{
+	background-color:#ff9797;
+	width: 340px;
+	color: white;
+    font-size: 25px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
